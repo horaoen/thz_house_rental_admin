@@ -1,0 +1,15 @@
+.container {
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 15% auto;
+}
+
+.title {
+  width: 100px;
+  margin: auto;
+}

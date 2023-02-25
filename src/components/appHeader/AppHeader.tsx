@@ -3,9 +3,18 @@ import logo from "../../assets/logo.svg";
 import styles from "./AppHeader.module.css";
 import { Header } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { getTokenAtom } from "../../recoil/atom";
 
 export const AppHeader: React.FC = () => {
   const navigate = useNavigate();
+  const setToken = useSetRecoilState(getTokenAtom());
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/login");
+  };
 
   return (
     <Header className={styles.appHeader}>
@@ -19,7 +28,9 @@ export const AppHeader: React.FC = () => {
           </span>
         </Col>
         <Col offset={16} span={2}>
-          <Button type="primary">登出</Button>
+          <Button type="primary" onClick={logout}>
+            登出
+          </Button>
         </Col>
       </Row>
     </Header>
