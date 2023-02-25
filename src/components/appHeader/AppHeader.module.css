@@ -1,0 +1,20 @@
+.logo {
+  height: 60px;
+  width: 60px;
+  float: left;
+}
+
+.appHeader {
+  background-color: white !important;
+  height: 8%;
+  line-height: 60px;
+  width: 100%;
+  padding-left: 10px !important;
+  padding-right: 0px !important;
+}
+
+.title {
+  line-height: 60px !important;
+  display: inline;
+  color: #03a9f4 !important;
+}
