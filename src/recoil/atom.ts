@@ -6,3 +6,10 @@ export const getTokenAtom = () => {
     default: "",
   });
 };
+
+export const getCurrentUserAtom = () => {
+  return atom({
+    key: "currentUser",
+    default: {},
+  });
+};

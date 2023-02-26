@@ -1,19 +1,61 @@
 import "antd/dist/reset.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage, LoginPage } from "./pages";
-import { RecoilEnv, RecoilRoot, useRecoilValue } from "recoil";
-import { getTokenAtom } from "./recoil/atom";
+import { RecoilEnv, RecoilRoot, useRecoilState } from "recoil";
+import { getCurrentUserAtom, getTokenAtom } from "./recoil/atom";
+import axios from "./request/axios";
+import { AxiosError } from "axios";
+import { message } from "antd";
 
 interface PropsType {
   children?: React.ReactNode;
 }
 
 const PrivateRoute: React.FC<PropsType> = ({ children }) => {
-  const token = useRecoilValue(getTokenAtom());
-  const res = token || localStorage.getItem("token");
+  // 通过的条件是能获得到curreneUser
+  const [token, setToken] = useRecoilState(getTokenAtom());
+  const [currentUser, setCurrentUser] = useRecoilState(getCurrentUserAtom());
+  const [state, setState] = useState<Boolean>(false);
 
-  return res ? <>{children}</> : <Navigate to="/login" />;
+  useEffect(() => {
+    async function init() {
+      // console.log("token: ", token, "currentUser: ", currentUser);
+      if (currentUser) {
+        setState(true);
+      } else if (token) {
+        axios.defaults.headers.common["Authorization"] = token;
+        try {
+          const response = await axios.get("/auth/currentUser");
+          setCurrentUser(response.data);
+          setState(true);
+        } catch (e) {
+          if (e instanceof AxiosError) {
+            message.error(e.response?.data.message);
+          }
+        }
+      } else {
+        const jwt = localStorage.getItem("token");
+        if (jwt) {
+          setToken(jwt);
+          axios.defaults.headers.common["Authorization"] = jwt;
+          try {
+            const response = await axios.get("/auth/currentUser");
+            setCurrentUser(response.data);
+            setState(true);
+          } catch (e) {
+            if (e instanceof AxiosError) {
+              message.error(e.response?.data.message);
+            }
+          }
+        }
+      }
+    }
+
+    init();
+  }, []);
+
+  return { state } ? <>{children}</> : <Navigate to="/login" />;
 };
 
 const App: React.FC = () => {

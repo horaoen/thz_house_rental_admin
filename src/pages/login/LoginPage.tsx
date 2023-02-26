@@ -6,12 +6,13 @@ import { useSetRecoilState } from "recoil";
 import axios from "../../request/axios";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import { getTokenAtom } from "../../recoil/atom";
+import { getCurrentUserAtom, getTokenAtom } from "../../recoil/atom";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const setToken = useSetRecoilState(getTokenAtom());
+  const setCurrentUser = useSetRecoilState(getCurrentUserAtom());
 
   async function login(values: any) {
     try {
@@ -22,9 +23,12 @@ export const LoginPage: React.FC = () => {
 
       setToken(response.data);
 
-      if (values.remember) {
-        localStorage.setItem("token", response.data);
-      }
+      axios.defaults.headers.common["Authorization"] = response.data;
+
+      const currentUserResponse = await axios.get("/auth/currentUser");
+      setCurrentUser(currentUserResponse.data);
+      console.log(currentUserResponse.data)
+
       navigate("/");
     } catch (e) {
       if (e instanceof AxiosError) {
