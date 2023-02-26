@@ -1,6 +1,12 @@
 import "antd/dist/reset.css";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { HomePage, LoginPage } from "./pages";
 import { RecoilEnv, RecoilRoot, useRecoilState } from "recoil";
 import { getCurrentUserAtom, getTokenAtom } from "./recoil/atom";
@@ -15,6 +21,7 @@ interface PropsType {
 const PrivateRoute: React.FC<PropsType> = ({ children }) => {
   // 通过的条件是能获得到curreneUser
   const [token, setToken] = useRecoilState(getTokenAtom());
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useRecoilState(getCurrentUserAtom());
   const [state, setState] = useState<Boolean>(false);
 
@@ -33,6 +40,7 @@ const PrivateRoute: React.FC<PropsType> = ({ children }) => {
           if (e instanceof AxiosError) {
             message.error(e.response?.data.message);
           }
+          navigate("/login");
         }
       } else {
         const jwt = localStorage.getItem("token");
@@ -47,6 +55,7 @@ const PrivateRoute: React.FC<PropsType> = ({ children }) => {
             if (e instanceof AxiosError) {
               message.error(e.response?.data.message);
             }
+            navigate("/login");
           }
         }
       }
