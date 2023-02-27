@@ -7,12 +7,14 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { HomePage, LoginPage } from "./pages";
+import { HomePage, HousePage, LoginPage } from "./pages";
 import { RecoilEnv, RecoilRoot, useRecoilState } from "recoil";
 import { getCurrentUserAtom, getTokenAtom } from "./recoil/atom";
 import axios from "./request/axios";
 import { AxiosError } from "axios";
 import { message } from "antd";
+import { ReservationPage } from "./pages/reservation/ReservationPage";
+import { MainLayout } from "./layouts";
 
 interface PropsType {
   children?: React.ReactNode;
@@ -62,9 +64,14 @@ const PrivateRoute: React.FC<PropsType> = ({ children }) => {
     }
 
     init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { state } ? <>{children}</> : <Navigate to="/login" />;
+  return { state } ? (
+    <MainLayout>{children}</MainLayout>
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 const App: React.FC = () => {
@@ -80,6 +87,33 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute>
                   <HomePage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/house"
+              element={
+                <PrivateRoute>
+                  <HousePage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/requirement"
+              element={
+                <PrivateRoute>
+                  <ReservationPage />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/reservation"
+              element={
+                <PrivateRoute>
+                  <ReservationPage />
                 </PrivateRoute>
               }
             />

@@ -3,6 +3,7 @@ import {
   HomeOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MessageOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Menu } from "antd";
@@ -15,7 +16,7 @@ export const AppSider: React.FC = () => {
 
   return (
     <>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider trigger={null} collapsible collapsed={collapsed} width={150}>
         <Menu
           theme="dark"
           mode="inline"
@@ -24,12 +25,17 @@ export const AppSider: React.FC = () => {
             {
               key: "1",
               icon: <HomeOutlined />,
-              label: "房源管理",
+              label: "房源",
             },
             {
               key: "2",
               icon: <UserOutlined />,
-              label: "用户管理",
+              label: "用户",
+            },
+            {
+              key: "3",
+              icon: <MessageOutlined />,
+              label: "预约",
             },
           ]}
         />
