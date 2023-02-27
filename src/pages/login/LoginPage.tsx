@@ -27,7 +27,6 @@ export const LoginPage: React.FC = () => {
 
       const currentUserResponse = await axios.get("/auth/currentUser");
       setCurrentUser(currentUserResponse.data);
-      console.log(currentUserResponse.data)
 
       navigate("/");
     } catch (e) {

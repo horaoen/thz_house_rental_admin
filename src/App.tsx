@@ -1,18 +1,12 @@
 import "antd/dist/reset.css";
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { HomePage, HousePage, LoginPage, UserPage } from "./pages";
 import { RecoilEnv, RecoilRoot, useRecoilState } from "recoil";
 import { getCurrentUserAtom, getTokenAtom } from "./recoil/atom";
 import axios from "./request/axios";
 import { AxiosError } from "axios";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { ReservationPage } from "./pages/reservation/ReservationPage";
 import { MainLayout } from "./layouts";
 
@@ -27,16 +21,37 @@ const PrivateRoute: React.FC<PropsType> = ({ children }) => {
   const [currentUser, setCurrentUser] = useRecoilState(getCurrentUserAtom());
   const [state, setState] = useState<Boolean>(false);
 
-  useEffect(() => {
-    async function init() {
-      // console.log("token: ", token, "currentUser: ", currentUser);
-      if (currentUser) {
+  async function fetchCurrentUser(token: string): Promise<any> {
+    axios.defaults.headers.common["Authorization"] = token;
+    const response = await axios.get("/auth/currentUser");
+    return response.data;
+  }
+
+  function checkCurrentUser(currentUser: any): boolean {
+    return Object.keys(currentUser).length !== 0;
+  }
+
+  async function init() {
+    if (checkCurrentUser(currentUser)) {
+      setState(true);
+    } else if (token) {
+      try {
+        const currentUser = await fetchCurrentUser(token);
+        setCurrentUser(currentUser);
         setState(true);
-      } else if (token) {
-        axios.defaults.headers.common["Authorization"] = token;
+      } catch (e) {
+        if (e instanceof AxiosError) {
+          message.error(e.response?.data.message);
+        }
+        navigate("/login");
+      }
+    } else {
+      const jwt = localStorage.getItem("token");
+      if (jwt) {
+        setToken(jwt);
         try {
-          const response = await axios.get("/auth/currentUser");
-          setCurrentUser(response.data);
+          const currentUser = await fetchCurrentUser(jwt);
+          setCurrentUser(currentUser);
           setState(true);
         } catch (e) {
           if (e instanceof AxiosError) {
@@ -44,34 +59,17 @@ const PrivateRoute: React.FC<PropsType> = ({ children }) => {
           }
           navigate("/login");
         }
-      } else {
-        const jwt = localStorage.getItem("token");
-        if (jwt) {
-          setToken(jwt);
-          axios.defaults.headers.common["Authorization"] = jwt;
-          try {
-            const response = await axios.get("/auth/currentUser");
-            setCurrentUser(response.data);
-            setState(true);
-          } catch (e) {
-            if (e instanceof AxiosError) {
-              message.error(e.response?.data.message);
-            }
-            navigate("/login");
-          }
-        }
       }
+      navigate("/login");
     }
+  }
 
+  useEffect(() => {
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { state } ? (
-    <MainLayout>{children}</MainLayout>
-  ) : (
-    <Navigate to="/login" />
-  );
+  return <MainLayout>{children}</MainLayout>;
 };
 
 const App: React.FC = () => {
