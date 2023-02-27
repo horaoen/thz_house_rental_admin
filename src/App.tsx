@@ -7,7 +7,7 @@ import {
   Routes,
   useNavigate,
 } from "react-router-dom";
-import { HomePage, HousePage, LoginPage } from "./pages";
+import { HomePage, HousePage, LoginPage, UserPage } from "./pages";
 import { RecoilEnv, RecoilRoot, useRecoilState } from "recoil";
 import { getCurrentUserAtom, getTokenAtom } from "./recoil/atom";
 import axios from "./request/axios";
@@ -87,6 +87,14 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute>
                   <HomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/user"
+              element={
+                <PrivateRoute>
+                  <UserPage />
                 </PrivateRoute>
               }
             />
