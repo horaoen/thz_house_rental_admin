@@ -10,7 +10,7 @@ axios.interceptors.request.use(
     return config;
   },
   function(error) {
-    console.log(error)
+    console.log(error);
     return Promise.reject(error);
   }
 );
@@ -20,7 +20,7 @@ axios.interceptors.response.use(
     return response.data;
   },
   function(error) {
-    console.log(error)
+    console.log(error);
     return Promise.reject(error);
   }
 );
