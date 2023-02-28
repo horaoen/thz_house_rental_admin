@@ -13,7 +13,6 @@ export const HouseQueryForm: React.FC = () => {
       <Row
         align="middle"
         justify="space-around"
-        style={{ paddingInline: "150px" }}
       >
         <Col>
           <Form.Item label="租期" name="leaseTerm">

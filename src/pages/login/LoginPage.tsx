@@ -31,7 +31,7 @@ export const LoginPage: React.FC = () => {
       const currentUserResponse = await axios.get("/auth/currentUser");
       setCurrentUser(currentUserResponse.data);
 
-      navigate("/");
+      navigate("/house");
     } catch (e) {
       if (e instanceof AxiosError) {
         message.error(e.response?.data.message);

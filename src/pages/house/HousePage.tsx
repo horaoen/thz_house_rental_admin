@@ -2,6 +2,7 @@ import axios from "../../request/axios";
 import { useEffect, useState } from "react";
 import { HouseQueryForm } from "./components/HouseQueryForm";
 import { HouseTable } from "./components/HouseTable";
+import styles from "./HousePage.module.css";
 
 export interface House {
   id: string;
@@ -36,9 +37,9 @@ export const HousePage: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className={styles.container}>
       <HouseQueryForm />
       <HouseTable data={data} />
-    </>
+    </div>
   );
 };
