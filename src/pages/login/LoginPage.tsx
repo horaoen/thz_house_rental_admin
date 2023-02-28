@@ -24,6 +24,9 @@ export const LoginPage: React.FC = () => {
       setToken(response.data);
 
       axios.defaults.headers.common["Authorization"] = response.data;
+      if(values.remember) {
+        localStorage.setItem("token", response.data)
+      }
 
       const currentUserResponse = await axios.get("/auth/currentUser");
       setCurrentUser(currentUserResponse.data);
@@ -42,7 +45,7 @@ export const LoginPage: React.FC = () => {
         亭好住
       </Typography.Title>
       <Form
-        initialValues={{ remember: true }}
+        initialValues={{ remember: false}}
         onFinish={login}
         style={{ marginTop: "60px" }}
       >
