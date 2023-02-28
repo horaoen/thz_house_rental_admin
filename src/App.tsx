@@ -1,13 +1,15 @@
 import "antd/dist/reset.css";
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage, HousePage, LoginPage, UserPage } from "./pages";
 import { RecoilEnv, RecoilRoot } from "recoil";
 import { ReservationPage } from "./pages/reservation/ReservationPage";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 const App: React.FC = () => {
-  RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+  useEffect(() => {
+    RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
+  }, []);
 
   return (
     <div>
@@ -17,9 +19,7 @@ const App: React.FC = () => {
             <Route
               path="/"
               element={
-                <PrivateRoute>
-                  <HomePage />
-                </PrivateRoute>
+                <Navigate to="/house" />
               }
             />
             <Route
