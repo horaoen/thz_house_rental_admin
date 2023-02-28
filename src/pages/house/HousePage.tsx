@@ -5,17 +5,23 @@ import { HouseTable } from "./components/HouseTable";
 
 export interface House {
   id: string;
-  landlord: string;
-  leaseTerm: string;
-  type: string;
-  houseType: string;
-  price: number;
-  location: string;
-  deposit: number;
-  area: number;
-  floor: number;
-  description: string;
-  tag: string;
+  landlord?: string;
+  leaseTerm?: string;
+  type?: string;
+  houseType?: string;
+  price?: number;
+  location?: string;
+  deposit?: number;
+  area?: number;
+  floor?: number;
+  description?: string;
+  tag?: string;
+  mp4DownloadUrls?: string[];
+  imageDownloadUrls?: string[];
+  images?: string[];
+  mp4s?: string[];
+  imagesMap?: Map<string, string>;
+  mp4sMap?: Map<string, string>;
 }
 export const HousePage: React.FC = () => {
   const [data, setData] = useState<House[]>([]);
@@ -23,8 +29,8 @@ export const HousePage: React.FC = () => {
   useEffect(() => {
     async function loadingData() {
       const response = await axios.get("/house/list");
-      console.log(response);
-      setData(response.data);
+      console.log("res: ", response);
+      setData(response.data.records);
     }
     loadingData();
   }, []);
@@ -32,7 +38,7 @@ export const HousePage: React.FC = () => {
   return (
     <>
       <HouseQueryForm />
-      <HouseTable data={data}/>
+      <HouseTable data={data} />
     </>
   );
 };
