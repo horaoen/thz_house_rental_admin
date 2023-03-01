@@ -45,7 +45,7 @@ export const LoginPage: React.FC = () => {
         亭好住
       </Typography.Title>
       <Form
-        initialValues={{ remember: false}}
+        initialValues={{ remember: true}}
         onFinish={login}
         style={{ marginTop: "60px" }}
       >

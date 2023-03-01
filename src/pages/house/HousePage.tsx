@@ -4,6 +4,7 @@ import { HouseQueryForm } from "./components/houseQueryForm";
 import styles from "./HousePage.module.css";
 import { HouseTable } from "./components/houseTable";
 import { House } from "../../request/type";
+import { Outlet } from "react-router-dom";
 
 export const HousePage: React.FC = () => {
   const [data, setData] = useState<House[]>([]);
@@ -21,6 +22,7 @@ export const HousePage: React.FC = () => {
     <div className={styles.container}>
       <HouseQueryForm />
       <HouseTable data={data} />
+      <Outlet />
     </div>
   );
 };

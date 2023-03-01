@@ -2,11 +2,9 @@ import { Layout } from "antd";
 import styles from "./MainLayout.module.css";
 import { Content } from "antd/es/layout/layout";
 import { AppFooter, AppHeader, AppSider } from "../../components";
+import { Outlet } from "react-router-dom";
 
-interface PropsType {
-  children: React.ReactNode;
-}
-export const MainLayout: React.FC<PropsType> = ({ children }) => {
+export const MainLayout: React.FC = () => {
   return (
     <>
       <Layout className={styles.globalLaout}>
@@ -14,7 +12,9 @@ export const MainLayout: React.FC<PropsType> = ({ children }) => {
         <Layout>
           <AppSider />
           <Layout>
-            <Content>{children}</Content>
+            <Content>
+              <Outlet />
+            </Content>
             <AppFooter />
           </Layout>
         </Layout>

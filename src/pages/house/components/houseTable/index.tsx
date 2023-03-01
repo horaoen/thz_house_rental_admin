@@ -2,7 +2,7 @@ import { Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import Link from "antd/es/typography/Link";
 import { useEffect } from "react";
-import { House } from "../../HousePage";
+import { House } from "../../../../request/type";
 
 interface TableProps {
   data: House[];

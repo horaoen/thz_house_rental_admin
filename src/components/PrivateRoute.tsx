@@ -69,7 +69,7 @@ export const PrivateRoute: React.FC<PropsType> = ({ children }) => {
   }, []);
 
   if (checkCurrentUser(currentUser)) {
-    return <MainLayout>{children}</MainLayout>;
+    return <MainLayout />;
   } else {
     return <Spin />;
   }
