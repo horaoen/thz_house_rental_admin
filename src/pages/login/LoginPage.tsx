@@ -3,9 +3,8 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import styles from "./LoginPage.module.css";
 import { Button, Checkbox, Form, Input, message, Typography } from "antd";
 import { useSetRecoilState } from "recoil";
-import axios from "../../request/axios";
 import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { getCurrentUserAtom, getTokenAtom } from "../../recoil/atom";
 
 export const LoginPage: React.FC = () => {
@@ -21,11 +20,12 @@ export const LoginPage: React.FC = () => {
         password: values.password,
       });
 
-      setToken(response.data);
+      const token = response.data.data;
+      setToken(token);
 
-      axios.defaults.headers.common["Authorization"] = response.data;
-      if(values.remember) {
-        localStorage.setItem("token", response.data)
+      axios.defaults.headers.common["Authorization"] = token;
+      if (values.remember) {
+        localStorage.setItem("token", token);
       }
 
       const currentUserResponse = await axios.get("/auth/currentUser");
@@ -45,7 +45,7 @@ export const LoginPage: React.FC = () => {
         亭好住
       </Typography.Title>
       <Form
-        initialValues={{ remember: true}}
+        initialValues={{ remember: true }}
         onFinish={login}
         style={{ marginTop: "60px" }}
       >

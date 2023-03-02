@@ -1,7 +1,7 @@
 import { Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import Link from "antd/es/typography/Link";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { House } from "../../../../request/type";
 
 interface TableProps {
@@ -39,13 +39,13 @@ export const HouseTable: React.FC<TableProps> = ({ data }) => {
       dataIndex: "area",
     },
     {
-      title: "Action",
+      title: "操作",
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link>详情</Link>
-          <Link>编辑</Link>
-          <Link>删除</Link>
+          <Link to={`/house/${record.id}/detail`}>详情</Link>
+          <Link to={`/house/${record.id}/detail`}>编辑</Link>
+          <Link to={`/house/${record.id}/delete`}>删除</Link>
         </Space>
       ),
     },

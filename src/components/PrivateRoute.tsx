@@ -1,6 +1,5 @@
 import { message, Spin } from "antd";
-import { AxiosError } from "axios";
-import axios from "../request/axios";
+import axios, { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
@@ -11,7 +10,7 @@ interface PropsType {
   children?: React.ReactNode;
 }
 
-export const PrivateRoute: React.FC<PropsType> = ({ children }) => {
+export const PrivateRoute: React.FC<PropsType> = () => {
   const [token, setToken] = useRecoilState(getTokenAtom());
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useRecoilState(getCurrentUserAtom());
@@ -31,6 +30,7 @@ export const PrivateRoute: React.FC<PropsType> = ({ children }) => {
     if (!checkCurrentUser(currentUser)) {
       if (token) {
         // recoil token
+        console.log(token);
         try {
           const res = await fetchCurrentUser(token);
           if (checkCurrentUser(res)) {
