@@ -12,7 +12,7 @@ export const MainLayout: React.FC = () => {
         <Layout>
           <AppSider />
           <Layout>
-            <Content>
+            <Content className={styles.content}>
               <Outlet />
             </Content>
             <AppFooter />

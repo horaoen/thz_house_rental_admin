@@ -1,14 +1,34 @@
-import { Space, Table } from "antd";
+import { Button, Popconfirm, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { House } from "../../../../request/type";
 
-interface TableProps {
-  data: House[];
-}
+interface TableProps { }
 
-export const HouseTable: React.FC<TableProps> = ({ data }) => {
+export const HouseTable: React.FC<TableProps> = () => {
+  const [dataSource, setDatasource] = useState<House[]>();
+
+  useEffect(() => {
+    async function loadingData() {
+      const response = await axios.get("/house/list");
+      setDatasource(response.data.data.records);
+    }
+    loadingData();
+  }, []);
+
+  async function handleDelete(houseId: string) {
+    console.log(houseId);
+    await axios.delete("/house/delete", {
+      params: {
+        houseId: houseId,
+      },
+    });
+    const newDatasource = dataSource?.filter((item) => item.id !== houseId);
+    setDatasource(newDatasource);
+  }
+
   const columns: ColumnsType<House> = [
     {
       title: "租期",
@@ -43,16 +63,27 @@ export const HouseTable: React.FC<TableProps> = ({ data }) => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link to={`/house/${record.id}/detail`}>详情</Link>
-          <Link to={`/house/${record.id}/detail`}>编辑</Link>
-          <Link to={`/house/${record.id}/delete`}>删除</Link>
+          <Link to={`/house/${record.id}/detail`}>
+            <Button type="link">详情</Button>
+          </Link>
+          <Link to={`/house/${record.id}/edit`}>
+            <Button type="link">编辑</Button>
+          </Link>
+          <Popconfirm
+            placement="top"
+            title="确定删除吗？"
+            onConfirm={() => handleDelete(record.id)}
+            okText="是"
+            cancelText="否"
+          >
+            <Button type="link" danger>
+              删除
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
-  useEffect(() => {
-    console.log(data);
-  });
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={dataSource} />;
 };
