@@ -23,9 +23,9 @@ export const LoginPage: React.FC = () => {
       const token = response.data.data;
       setToken(token);
 
-      axios.defaults.headers.common["Authorization"] = token;
+      axios.defaults.headers.common["Authorization"] = response.data.data;
       if (values.remember) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", response.data.data);
       }
 
       const currentUserResponse = await axios.get("/auth/currentUser");

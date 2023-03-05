@@ -11,10 +11,6 @@ export interface House {
   floor?: number;
   description?: string;
   tag?: string;
-  mp4DownloadUrls?: string[];
-  imageDownloadUrls?: string[];
-  images?: string[];
-  mp4s?: string[];
-  imagesMap?: Map<string, string>;
-  mp4sMap?: Map<string, string>;
+  imageUrls?: string[];
+  mp4sUrls?: string[];
 }

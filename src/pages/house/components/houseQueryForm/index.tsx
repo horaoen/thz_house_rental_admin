@@ -1,8 +1,8 @@
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Select } from "antd";
 import styles from "./index.module.css";
-import Link from "antd/es/typography/Link";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const HouseQueryForm: React.FC = () => {
   const [expand, setExpand] = useState(false);
@@ -10,10 +10,7 @@ export const HouseQueryForm: React.FC = () => {
 
   return (
     <Form className={styles.container} form={form}>
-      <Row
-        align="middle"
-        justify="space-around"
-      >
+      <Row align="middle" justify="space-around">
         <Col>
           <Form.Item label="租期" name="leaseTerm">
             <Select
@@ -64,8 +61,17 @@ export const HouseQueryForm: React.FC = () => {
         </Col>
       </Row>
 
-      {expand && <Row>hello</Row>}
+      {expand && (
+        <Row>
+          <Col></Col>
+        </Row>
+      )}
       <Row justify="end" align="middle">
+        <Col style={{ marginRight: "10px" }}>
+          <Link to="/house/new">
+            <Button type="primary">新建</Button>
+          </Link>
+        </Col>
         <Col style={{ marginRight: "10px" }}>
           <Button type="primary" htmlType="submit">
             查询
@@ -74,15 +80,15 @@ export const HouseQueryForm: React.FC = () => {
         <Col style={{ marginRight: "5px" }}>
           <Button onClick={() => form.resetFields()}>重置</Button>
         </Col>
-        <Col span={1} style={{marginRight: "15px"}}>
-          <Link
-            style={{ fontSize: 12 }}
+        <Col span={1} style={{ marginRight: "15px" }}>
+          <Button
+            type="link"
             onClick={() => {
               setExpand(!expand);
             }}
           >
             {expand ? <UpOutlined /> : <DownOutlined />} 展开
-          </Link>
+          </Button>
         </Col>
       </Row>
     </Form>

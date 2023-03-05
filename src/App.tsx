@@ -16,7 +16,10 @@ const App: React.FC = () => {
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = token;
-    console.log(token);
+    axios.interceptors.request.use(function(config) {
+      config.baseURL = testUrl;
+      return config;
+    });
   }, [token]);
 
   RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED = false;
