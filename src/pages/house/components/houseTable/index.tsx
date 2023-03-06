@@ -31,37 +31,37 @@ export const HouseTable: React.FC<TableProps> = () => {
 
   const columns: ColumnsType<House> = [
     {
-      key: 'leaseTerm',
+      key: "leaseTerm",
       title: "租期",
       dataIndex: "leaseTerm",
     },
     {
-      key: 'type',
+      key: "type",
       title: "租房类型",
       dataIndex: "type",
     },
     {
-      key: 'houseType',
+      key: "houseType",
       title: "户型",
       dataIndex: "houseType",
     },
     {
-      key: 'price',
+      key: "price",
       title: "价格",
       dataIndex: "price",
     },
     {
-      key: 'location',
+      key: "location",
       title: "位置",
       dataIndex: "location",
     },
     {
-      key: 'deposit',
+      key: "deposit",
       title: "押金",
       dataIndex: "deposit",
     },
     {
-      key: 'area',
+      key: "area",
       title: "面积",
       dataIndex: "area",
     },
@@ -92,5 +92,5 @@ export const HouseTable: React.FC<TableProps> = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  return <Table columns={columns} dataSource={dataSource}/>;
 };
