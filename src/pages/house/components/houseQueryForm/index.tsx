@@ -11,7 +11,7 @@ export const HouseQueryForm: React.FC = () => {
   return (
     <Form className={styles.container} form={form}>
       <Row align="middle" justify="space-around">
-        <Col>
+        <Col span={3}>
           <Form.Item label="租期" name="leaseTerm">
             <Select
               defaultValue="whatever"

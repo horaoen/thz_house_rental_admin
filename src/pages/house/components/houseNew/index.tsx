@@ -19,27 +19,41 @@ import axios from "axios";
 export const HouseNew: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [mp4Urls, setMp4Urls] = useState<string[]>([]);
 
   async function handleSubmit(values: any) {
     console.log(values);
-    const formData = { ...values, imageUrls };
+    const formData = { ...values, imageUrls, mp4Urls };
 
-    console.log(formData)
+    console.log(formData);
     await axios.post("/house/add", formData);
   }
 
-  const props: UploadProps = {
+  const basicProps: UploadProps = {
     name: "uploadFile",
     action: "https://123.60.59.138:5000/file/upload",
     headers: {
       Authorization: token,
     },
+  };
+  const imageProps: UploadProps = {
+    ...basicProps,
     onChange(info) {
       if (info.file.status !== "uploading") {
         console.log(info.file, info.fileList);
         setImageUrls(info.fileList.map((e) => e.response.data.url));
       }
       console.log(imageUrls);
+    },
+  };
+  const mp4Pros: UploadProps = {
+    ...basicProps,
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+        setMp4Urls(info.fileList.map((e) => e.response.data.url));
+      }
+      console.log(mp4Urls);
     },
   };
 
@@ -70,7 +84,7 @@ export const HouseNew: React.FC = () => {
         </Row>
 
         <Row justify="center">
-          <Col span={10}>
+          <Col span={6}>
             <Form.Item label="类型" name="type">
               <Select>
                 <Select.Option value="整租">整租</Select.Option>
@@ -78,13 +92,22 @@ export const HouseNew: React.FC = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={6}>
             <Form.Item label="户型" name="houseType">
               <Select>
                 <Select.Option value="一居室">一居室</Select.Option>
                 <Select.Option value="两居室">两居室</Select.Option>
                 <Select.Option value="三居室">三居室</Select.Option>
                 <Select.Option value="四居室及以上">四居室及以上</Select.Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item label="租期" name="leaseTerm">
+              <Select defaultValue="不限">
+                <Select.Option value="不限">不限</Select.Option>
+                <Select.Option value="长租">长租</Select.Option>
+                <Select.Option value="短租">长租</Select.Option>
               </Select>
             </Form.Item>
           </Col>
@@ -114,7 +137,15 @@ export const HouseNew: React.FC = () => {
         </Row>
 
         <Form.Item label="图片" name="imageUrls">
-          <Upload listType="picture-card" {...props}>
+          <Upload listType="picture-card" {...imageProps}>
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>Upload</div>
+            </div>
+          </Upload>
+        </Form.Item>
+        <Form.Item label="视频" name="mp4Urls">
+          <Upload listType="picture-card" {...mp4Pros}>
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>Upload</div>
@@ -134,9 +165,7 @@ export const HouseNew: React.FC = () => {
           </Col>
           <Col span={6}>
             <Link to="/house">
-              <Link to="/house/new">
-                <Button type="default">返回</Button>
-              </Link>
+              <Button type="default">返回</Button>
             </Link>
           </Col>
         </Row>

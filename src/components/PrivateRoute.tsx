@@ -30,7 +30,7 @@ export const PrivateRoute: React.FC<PropsType> = () => {
     if (!checkCurrentUser(currentUser)) {
       if (token) {
         // recoil token
-        console.log(token)
+        console.log(token);
         try {
           const res = await fetchCurrentUser(token);
           if (checkCurrentUser(res)) {
@@ -39,7 +39,7 @@ export const PrivateRoute: React.FC<PropsType> = () => {
             navigate("/login");
           }
         } catch (e) {
-          if (e instanceof AxiosError) message.error(e.message);
+          if (e instanceof AxiosError) message.error(e.response?.data.message);
           navigate("/login");
         }
       } else {
