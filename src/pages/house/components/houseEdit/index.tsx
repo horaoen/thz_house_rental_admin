@@ -9,19 +9,18 @@ import {
   Row,
   Select,
   Upload,
-  UploadFile,
   UploadProps,
 } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { getTokenAtom } from "../../../../recoil/atom";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
-import { House } from "../../../../request/type";
 
 export const HouseEdit: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
 
+  const navigate = useNavigate()
   const [images, setImages] = useState<any>();
   const [mp4s, setMp4s] = useState<any>();
 
@@ -44,9 +43,11 @@ export const HouseEdit: React.FC = () => {
         return e.response.data.url;
       }
     });
-    const formData = { ...values, imageUrls, mp4Urls };
+    const id = houseId;
+    const formData = { ...values, id, imageUrls, mp4Urls };
 
     await axios.put("/house/update", formData);
+    navigate("/house")
   }
 
   async function fetchData() {
@@ -111,7 +112,7 @@ export const HouseEdit: React.FC = () => {
         initialValues={data}
       >
         <Row justify="center">
-          <Col span={10}>
+          <Col span={7}>
             <Form.Item
               label="价格"
               name="price"
@@ -120,15 +121,20 @@ export const HouseEdit: React.FC = () => {
               <Input type="number" />
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={7}>
             <Form.Item label="面积" name="area">
+              <Input type="number" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item label="押金" name="deposit">
               <Input type="number" />
             </Form.Item>
           </Col>
         </Row>
 
         <Row justify="center">
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="类型" name="type">
               <Select defaultValue={data?.type}>
                 <Select.Option value="整租">整租</Select.Option>
@@ -136,7 +142,7 @@ export const HouseEdit: React.FC = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="户型" name="houseType">
               <Select defaultValue={data?.houseType}>
                 <Select.Option value="一居室">一居室</Select.Option>
@@ -146,7 +152,7 @@ export const HouseEdit: React.FC = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="租期" name="leaseTerm">
               <Select>
                 <Select.Option value="不限">不限</Select.Option>

@@ -26,7 +26,7 @@ export const HouseNew: React.FC = () => {
     const formData = { ...values, imageUrls, mp4Urls };
 
     await axios.post("/house/add", formData);
-    navigate("/house")
+    navigate("/house");
   }
 
   const basicProps: UploadProps = {
@@ -39,8 +39,8 @@ export const HouseNew: React.FC = () => {
   const imageProps: UploadProps = {
     ...basicProps,
     onChange(info) {
-      if (info.file.status === 'done') {
-        console.log("success")
+      if (info.file.status === "done") {
+        console.log("success");
         setImageUrls(info.fileList.map((e) => e.response.data.url));
       }
     },
@@ -64,7 +64,7 @@ export const HouseNew: React.FC = () => {
         onFinish={(values) => handleSubmit(values)}
       >
         <Row justify="center">
-          <Col span={10}>
+          <Col span={7}>
             <Form.Item
               label="价格"
               name="price"
@@ -73,15 +73,23 @@ export const HouseNew: React.FC = () => {
               <Input type="number" />
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={7}>
             <Form.Item label="面积" name="area">
+              <Input type="number" />
+            </Form.Item>
+          </Col>
+          <Col span={7}>
+            <Form.Item
+              label="押金"
+              name="deposit"
+            >
               <Input type="number" />
             </Form.Item>
           </Col>
         </Row>
 
         <Row justify="center">
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="类型" name="type">
               <Select>
                 <Select.Option value="整租">整租</Select.Option>
@@ -89,7 +97,7 @@ export const HouseNew: React.FC = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="户型" name="houseType">
               <Select>
                 <Select.Option value="一居室">一居室</Select.Option>
@@ -99,7 +107,7 @@ export const HouseNew: React.FC = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={7}>
             <Form.Item label="租期" name="leaseTerm">
               <Select defaultValue="不限">
                 <Select.Option value="不限">不限</Select.Option>

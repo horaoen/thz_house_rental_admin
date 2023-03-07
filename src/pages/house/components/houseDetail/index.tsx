@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Carousel, Col, Descriptions, Divider, Row } from "antd";
+import { Button, Carousel, Descriptions, Divider } from "antd";
 import axios from "axios";
 import styles from "./index.module.css";
 import ReactPlayer from "react-player";
@@ -8,6 +8,7 @@ import ReactPlayer from "react-player";
 export const HouseDetail: React.FC = () => {
   const { houseId } = useParams();
   const [data, setData] = useState<any>();
+  const navigate = useNavigate()
 
   const carouselList = data?.imageUrls?.map((url: any) => {
     return <img src={url} alt="img" className={styles.carouseImage} />;
@@ -17,7 +18,20 @@ export const HouseDetail: React.FC = () => {
     const response = await axios.get(`/house/get/${houseId}`);
     const res = response.data.data;
     setData(res);
+    console.log(res)
+    console.log(res.mp4Urls[0])
   }
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const handleProgress = (state) => {
+    setCurrentTime(state.playedSeconds);
+  };
+
+  const handleDuration = (duration) => {
+    setDuration(duration);
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -26,16 +40,31 @@ export const HouseDetail: React.FC = () => {
 
   return (
     <div className={styles.detailContainer}>
+      <Button type="primary"
+        onClick={() => { navigate("/house") }}
+        style={{
+          position: "relative",
+          top: "10px",
+          left: "20px"
+        }}
+      >返回</Button>
       <Carousel autoplay className={styles.carouse}>
         {carouselList}
       </Carousel>
 
       <ReactPlayer
         style={{ margin: "0 auto" }}
-        url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+        url={data?.mp4Urls[0]}
+        controls={true}
+        onProgress={handleProgress}
+        onDuration={handleDuration}
+        playing={true}
+        progressInterval={1000}
+        currentTime={currentTime}
+        duration={duration}
       />
 
-      <div style={{paddingInline: "10%", marginTop: "40px", marginBottom: "40px"}}>
+      <div style={{ paddingInline: "10%", marginTop: "40px", marginBottom: "" }}>
         <Descriptions layout="horizontal" bordered size="middle">
           <Descriptions.Item label="价格">{data?.price}</Descriptions.Item>
           <Descriptions.Item label="位置" span={2}>
