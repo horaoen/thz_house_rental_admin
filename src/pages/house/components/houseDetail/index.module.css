@@ -1,15 +1,12 @@
 .carouseImage {
-  width: 533px;
-  height: 400px;
+  width: 50% !important;
+  height: 38% !important;
 }
 
 .carouse {
-  height: 40%;
-  margin: 3% auto;
+  text-align: center;
 }
 
 .detailContainer {
   background-color: white;
-  padding: 0 10%;
 }
-

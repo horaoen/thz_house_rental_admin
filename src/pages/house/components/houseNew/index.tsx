@@ -10,23 +10,23 @@ import {
   Upload,
   UploadProps,
 } from "antd";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { getTokenAtom } from "../../../../recoil/atom";
-import { useState } from "react";
-import axios from "axios";
 
 export const HouseNew: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [mp4Urls, setMp4Urls] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   async function handleSubmit(values: any) {
-    console.log(values);
     const formData = { ...values, imageUrls, mp4Urls };
 
-    console.log(formData);
     await axios.post("/house/add", formData);
+    navigate("/house")
   }
 
   const basicProps: UploadProps = {
@@ -39,21 +39,18 @@ export const HouseNew: React.FC = () => {
   const imageProps: UploadProps = {
     ...basicProps,
     onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+      if (info.file.status === 'done') {
+        console.log("success")
         setImageUrls(info.fileList.map((e) => e.response.data.url));
       }
-      console.log(imageUrls);
     },
   };
   const mp4Pros: UploadProps = {
     ...basicProps,
     onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
+      if (info.file.status === "done") {
         setMp4Urls(info.fileList.map((e) => e.response.data.url));
       }
-      console.log(mp4Urls);
     },
   };
 

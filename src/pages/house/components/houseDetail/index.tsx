@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Carousel, Descriptions } from "antd";
+import { Carousel, Col, Descriptions, Divider, Row } from "antd";
 import axios from "axios";
 import styles from "./index.module.css";
 import ReactPlayer from "react-player";
@@ -35,32 +35,37 @@ export const HouseDetail: React.FC = () => {
         url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
       />
 
-      <Descriptions layout="horizontal" bordered size="middle">
-        <Descriptions.Item label="价格">{data?.price}</Descriptions.Item>
-        <Descriptions.Item label="位置" span={2}>
-          {data?.location}
-        </Descriptions.Item>
-        <Descriptions.Item label="面积">{data?.area}</Descriptions.Item>
-        <Descriptions.Item label="类型">{data?.type}</Descriptions.Item>
-        <Descriptions.Item label="户型">{data?.houseType}</Descriptions.Item>
-        <Descriptions.Item label="租期">{data?.leaseTerm}</Descriptions.Item>
-        <Descriptions.Item label="押金">{data?.deposit}</Descriptions.Item>
-        <Descriptions.Item label="楼层">{data?.floor}</Descriptions.Item>
-        <Descriptions.Item label="收藏数量">
-          {data?.collectNum}
-        </Descriptions.Item>
-        <Descriptions.Item label="喜欢数量">{data?.likeNum}</Descriptions.Item>
-      </Descriptions>
-      <Descriptions
-        style={{ marginTop: "20px" }}
-        layout="vertical"
-        bordered
-        size="middle"
-      >
-        <Descriptions.Item label="详情描述" span={3}>
-          {data?.description}
-        </Descriptions.Item>
-      </Descriptions>
+      <div style={{paddingInline: "10%", marginTop: "40px", marginBottom: "40px"}}>
+        <Descriptions layout="horizontal" bordered size="middle">
+          <Descriptions.Item label="价格">{data?.price}</Descriptions.Item>
+          <Descriptions.Item label="位置" span={2}>
+            {data?.location}
+          </Descriptions.Item>
+          <Descriptions.Item label="面积">{data?.area}</Descriptions.Item>
+          <Descriptions.Item label="类型">{data?.type}</Descriptions.Item>
+          <Descriptions.Item label="户型">{data?.houseType}</Descriptions.Item>
+          <Descriptions.Item label="租期">{data?.leaseTerm}</Descriptions.Item>
+          <Descriptions.Item label="押金">{data?.deposit}</Descriptions.Item>
+          <Descriptions.Item label="楼层">{data?.floor}</Descriptions.Item>
+          <Descriptions.Item label="收藏数量">
+            {data?.collectNum}
+          </Descriptions.Item>
+          <Descriptions.Item label="喜欢数量">
+            {data?.likeNum}
+          </Descriptions.Item>
+        </Descriptions>
+        <Divider />
+        <Descriptions
+          style={{ marginTop: "20px" }}
+          layout="vertical"
+          bordered
+          size="middle"
+        >
+          <Descriptions.Item label="详情描述" span={3}>
+            {data?.description}
+          </Descriptions.Item>
+        </Descriptions>
+      </div>
     </div>
   );
 };
