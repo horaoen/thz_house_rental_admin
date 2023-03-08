@@ -20,7 +20,7 @@ import axios, { AxiosError } from "axios";
 export const HouseEdit: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [images, setImages] = useState<any>();
   const [mp4s, setMp4s] = useState<any>();
 
@@ -47,7 +47,7 @@ export const HouseEdit: React.FC = () => {
     const formData = { ...values, id, imageUrls, mp4Urls };
 
     await axios.put("/house/update", formData);
-    navigate("/house")
+    navigate("/house");
   }
 
   async function fetchData() {

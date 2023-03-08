@@ -21,17 +21,6 @@ export const HouseDetail: React.FC = () => {
     console.log(res)
     console.log(res.mp4Urls[0])
   }
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const handleProgress = (state) => {
-    setCurrentTime(state.playedSeconds);
-  };
-
-  const handleDuration = (duration) => {
-    setDuration(duration);
-  };
-
 
   useEffect(() => {
     fetchData();
@@ -56,12 +45,7 @@ export const HouseDetail: React.FC = () => {
         style={{ margin: "0 auto" }}
         url={data?.mp4Urls[0]}
         controls={true}
-        onProgress={handleProgress}
-        onDuration={handleDuration}
-        playing={true}
-        progressInterval={1000}
-        currentTime={currentTime}
-        duration={duration}
+        muted={true}
       />
 
       <div style={{ paddingInline: "10%", marginTop: "40px", marginBottom: "" }}>
