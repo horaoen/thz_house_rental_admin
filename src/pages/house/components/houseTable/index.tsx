@@ -92,5 +92,5 @@ export const HouseTable: React.FC<TableProps> = () => {
     },
   ];
 
-  return <Table columns={columns} dataSource={dataSource}/>;
+  return <Table columns={columns} rowKey="id" dataSource={dataSource}/>;
 };

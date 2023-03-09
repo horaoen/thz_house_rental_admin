@@ -9,6 +9,7 @@ import { HouseDetail } from "./pages/house/components/houseDetail";
 import { HouseEdit } from "./pages/house/components/houseEdit";
 import { ReservationPage } from "./pages/reservation/ReservationPage";
 import { HouseNew } from "./pages/house/components/houseNew";
+import { UserDetail } from "./pages/user/components/userDetail";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,7 +27,11 @@ export const router = createBrowserRouter(
         </Route>
         <Route path="requirement" element={<RequirementPage />} />
         <Route path="reservation" element={<ReservationPage />} />
-        <Route path="user" element={<UserPage />} />
+
+        <Route path="user">
+          <Route index element={<UserPage />} />
+          <Route path=":userId/detail" element={<UserDetail />} />
+        </Route>
       </Route>
     </Route>
   )

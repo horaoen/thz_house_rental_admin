@@ -6,11 +6,7 @@ import { useRecoilState } from "recoil";
 import { MainLayout } from "../layouts";
 import { getTokenAtom, getCurrentUserAtom } from "../recoil/atom";
 
-interface PropsType {
-  children?: React.ReactNode;
-}
-
-export const PrivateRoute: React.FC<PropsType> = () => {
+export const PrivateRoute: React.FC = () => {
   const [token, setToken] = useRecoilState(getTokenAtom());
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useRecoilState(getCurrentUserAtom());
