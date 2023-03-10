@@ -79,10 +79,7 @@ export const HouseNew: React.FC = () => {
             </Form.Item>
           </Col>
           <Col span={7}>
-            <Form.Item
-              label="押金"
-              name="deposit"
-            >
+            <Form.Item label="押金" name="deposit">
               <Input type="number" />
             </Form.Item>
           </Col>
@@ -169,9 +166,9 @@ export const HouseNew: React.FC = () => {
             </Button>
           </Col>
           <Col span={6}>
-            <Link to="/house">
-              <Button type="default">返回</Button>
-            </Link>
+            <Button type="default" onClick={() => navigate(-1)}>
+              返回
+            </Button>
           </Col>
         </Row>
       </Form>

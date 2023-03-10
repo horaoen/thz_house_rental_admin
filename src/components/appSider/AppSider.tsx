@@ -9,26 +9,41 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const AppSider: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [naviKey, setNaviKey] = useState("house");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const routePath = location.pathname;
+    if (routePath.includes("house")) {
+      setNaviKey("house");
+    } else if (routePath.includes("user")) {
+      setNaviKey("user");
+    } else if (routePath.includes("requirement")) {
+      setNaviKey("requirement");
+    } else if (routePath.includes("reservation")) {
+      setNaviKey("reservation");
+    }
+  }, [location]);
 
   const handleClick = ({ key }) => {
     switch (key) {
-      case "1":
+      case "house":
         navigate("/house");
         break;
-      case "2":
+      case "user":
         navigate("/user");
         break;
-      case "3":
+      case "requirement":
         navigate("/requirement");
         break;
-      case "4":
+      case "reservation":
         navigate("/reservation");
         break;
       default:
@@ -42,26 +57,27 @@ export const AppSider: React.FC = () => {
         <Menu
           theme="dark"
           onClick={handleClick}
+          selectedKeys={[naviKey]}
           mode="inline"
           defaultSelectedKeys={["1"]}
           items={[
             {
-              key: "1",
+              key: "house",
               icon: <HomeOutlined />,
               label: "房源",
             },
             {
-              key: "2",
+              key: "user",
               icon: <UserOutlined />,
               label: "用户",
             },
             {
-              key: "3",
+              key: "requirement",
               icon: <MessageOutlined />,
               label: "需求",
             },
             {
-              key: "4",
+              key: "reservation",
               icon: <ShoppingCartOutlined />,
               label: "预约",
             },

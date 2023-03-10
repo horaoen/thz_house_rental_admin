@@ -8,7 +8,7 @@ import ReactPlayer from "react-player";
 export const HouseDetail: React.FC = () => {
   const { houseId } = useParams();
   const [data, setData] = useState<any>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const carouselList = data?.imageUrls?.map((url: any) => {
     return <img src={url} alt="img" className={styles.carouseImage} />;
@@ -18,8 +18,8 @@ export const HouseDetail: React.FC = () => {
     const response = await axios.get(`/house/get/${houseId}`);
     const res = response.data.data;
     setData(res);
-    console.log(res)
-    console.log(res.mp4Urls[0])
+    console.log(res);
+    console.log(res.mp4Urls[0]);
   }
 
   useEffect(() => {
@@ -29,14 +29,19 @@ export const HouseDetail: React.FC = () => {
 
   return (
     <div className={styles.detailContainer}>
-      <Button type="primary"
-        onClick={() => { navigate("/house") }}
+      <Button
+        type="primary"
+        onClick={() => {
+          navigate(-1);
+        }}
         style={{
           position: "relative",
           top: "10px",
-          left: "20px"
+          left: "20px",
         }}
-      >返回</Button>
+      >
+        返回
+      </Button>
       <Carousel autoplay className={styles.carouse}>
         {carouselList}
       </Carousel>
@@ -48,7 +53,9 @@ export const HouseDetail: React.FC = () => {
         muted={true}
       />
 
-      <div style={{ paddingInline: "10%", marginTop: "40px", marginBottom: "" }}>
+      <div
+        style={{ paddingInline: "10%", marginTop: "40px", marginBottom: "" }}
+      >
         <Descriptions layout="horizontal" bordered size="middle">
           <Descriptions.Item label="价格">{data?.price}</Descriptions.Item>
           <Descriptions.Item label="位置" span={2}>

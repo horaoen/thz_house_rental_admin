@@ -225,9 +225,9 @@ export const HouseEdit: React.FC = () => {
             </Button>
           </Col>
           <Col span={6}>
-            <Link to="/house">
-              <Button type="default">返回</Button>
-            </Link>
+            <Button type="default" onClick={() => navigate(-1)}>
+              返回
+            </Button>
           </Col>
         </Row>
       </Form>

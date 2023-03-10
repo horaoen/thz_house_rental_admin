@@ -25,7 +25,11 @@ export const router = createBrowserRouter(
           <Route path=":houseId/detail" element={<HouseDetail />} />
           <Route path="new" element={<HouseNew />} />
         </Route>
-        <Route path="requirement" element={<RequirementPage />} />
+
+        <Route path="requirement">
+          <Route index element={<RequirementPage />} />
+        </Route>
+
         <Route path="reservation" element={<ReservationPage />} />
 
         <Route path="user">
