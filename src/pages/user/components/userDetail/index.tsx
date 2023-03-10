@@ -1,5 +1,4 @@
-import { Avatar, Button, Descriptions, List, message, Typography } from "antd";
-import Link from "antd/es/typography/Link";
+import { Button, Descriptions, List, message, Typography } from "antd";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -76,7 +75,7 @@ export const UserDetail: React.FC = () => {
               handleReservationClick(item.houseId);
             }}
             style={{
-              margin: "0 10%"
+              margin: "0 10%",
             }}
           >
             <Typography.Text>位置：{item.houseLocation}</Typography.Text>

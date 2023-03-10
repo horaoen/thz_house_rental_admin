@@ -11,7 +11,7 @@ import {
   Upload,
   UploadProps,
 } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { getTokenAtom } from "../../../../recoil/atom";
 import { useEffect, useState } from "react";
