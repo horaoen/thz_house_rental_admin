@@ -1,5 +1,5 @@
 FROM node:16 as build
-RUN npm config set registry https://registry.npm.taobao.org
+RUN npm config set registry https://registry.npmmirror.com
 WORKDIR /app
 
 COPY package.json ./
