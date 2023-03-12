@@ -1,9 +1,13 @@
 FROM node:16 as build
+RUN npm config set registry https://registry.npm.taobao.org
 WORKDIR /app
+
 COPY package.json ./
 RUN npm install
+
 COPY tsconfig.json ./
 COPY public public/
+
 COPY src src/
 RUN npm run build
 
