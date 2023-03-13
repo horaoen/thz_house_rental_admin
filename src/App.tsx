@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
 
   // const devUrl = "https://localhost:5000";
-  const testUrl = "https://123.60.78.147:5000/";
+  const testUrl = "http://123.60.78.147:5000/";
   axios.defaults.baseURL = testUrl;
   axios.defaults.headers.post["Content-Type"] = "application/json";
   axios.defaults.withCredentials = true;

@@ -12,7 +12,7 @@ pipeline {
     stage("dokcer run") {
       steps {
         sh 'sudo docker rm -f thz_house_rental_admin'
-        sh 'sudo docker run --name thz_house_rental_admin -p 2000:80 -d thz_house_rental_admin:v1'
+        sh 'sudo docker run --name thz_house_rental_admin -p 80:80 -d thz_house_rental_admin:v1'
       }
     }
   }
