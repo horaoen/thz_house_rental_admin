@@ -26,7 +26,6 @@ export const HouseTable: React.FC = () => {
   }
 
   async function handleDelete(houseId: string, index: number) {
-    console.log(houseId);
     await axios.delete("/house/delete", {
       params: {
         houseId: houseId,

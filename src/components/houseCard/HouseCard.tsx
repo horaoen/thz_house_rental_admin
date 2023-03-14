@@ -22,7 +22,7 @@ export const HouseCard: React.FC<PropsType> = ({ houseId }) => {
 
   useEffect(() => {
     fetchData();
-    console.log(data)
   }, []);
+
   return <h1>card</h1>;
 };

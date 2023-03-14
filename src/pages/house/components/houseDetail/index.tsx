@@ -18,8 +18,6 @@ export const HouseDetail: React.FC = () => {
     const response = await axios.get(`/house/get/${houseId}`);
     const res = response.data.data;
     setData(res);
-    console.log(res);
-    console.log(res.mp4Urls[0]);
   }
 
   useEffect(() => {

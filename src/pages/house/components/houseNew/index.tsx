@@ -41,7 +41,6 @@ export const HouseNew: React.FC = () => {
     ...basicProps,
     onChange(info) {
       if (info.file.status === "done") {
-        console.log("success");
         setImageUrls(info.fileList.map((e) => e.response.data.url));
       }
     },

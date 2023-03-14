@@ -26,7 +26,6 @@ export const PrivateRoute: React.FC = () => {
     if (!checkCurrentUser(currentUser)) {
       if (token) {
         // recoil token
-        console.log(token);
         try {
           const res = await fetchCurrentUser(token);
           if (checkCurrentUser(res)) {

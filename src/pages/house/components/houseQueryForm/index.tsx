@@ -27,23 +27,22 @@ export const HouseQueryForm: React.FC = () => {
   });
 
   async function handleCommit(values: any) {
-    const minPrice = values.priceRange.minPrice;
-    const maxPrice = values.priceRange.maxPrice;
-    delete values.priceRange;
-
-    console.log(values);
     const res = await axios.get("/house/list", {
-      params: {
-        ...values,
-        minPrice,
-        maxPrice,
-      },
+      params: expand
+        ? {
+          ...values,
+          minPrice: priceRange.minPrice,
+          maxPrice: priceRange.maxPrice,
+        }
+        : {
+          ...values,
+        },
     });
-    console.log(res.data);
     setHouseDataSource(res.data.data.records);
   }
 
   async function reset() {
+    setPriceRange({ minPrice: 100, maxPrice: 2000 });
     form.resetFields();
     handleCommit(null);
   }
@@ -109,8 +108,8 @@ export const HouseQueryForm: React.FC = () => {
       {expand && (
         <Row justify="start">
           <Col span={6}>
-            <Form.Item name="priceRange" label="价格" initialValue={priceRange}>
-              <PriceRangeSelector value={priceRange} onChange={setPriceRange} />
+            <Form.Item label="价格">
+              <PriceRangeSelector values={priceRange} onChange={setPriceRange} />
             </Form.Item>
           </Col>
         </Row>
