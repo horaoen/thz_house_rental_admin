@@ -1,36 +1,72 @@
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Select } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Slider,
+} from "antd";
 import styles from "./index.module.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { getHouseListAtom } from "../../../../recoil/atom";
 import axios from "axios";
+import { PriceRangeSelector } from "../../../../components";
 
 export const HouseQueryForm: React.FC = () => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
   const setHouseDataSource = useSetRecoilState(getHouseListAtom());
+  const [priceRange, setPriceRange] = useState({
+    minPrice: 100,
+    maxPrice: 2000,
+  });
 
   async function handleCommit(values: any) {
+    const minPrice = values.priceRange.minPrice;
+    const maxPrice = values.priceRange.maxPrice;
+    delete values.priceRange;
+
     console.log(values);
-    const res = await axios.get("/house/list", values);
+    const res = await axios.get("/house/list", {
+      params: {
+        ...values,
+        minPrice,
+        maxPrice,
+      },
+    });
     console.log(res.data);
     setHouseDataSource(res.data.data.records);
   }
 
+  async function reset() {
+    form.resetFields();
+    handleCommit(null);
+  }
+
   return (
-    <Form className={styles.container} form={form} onFinish={handleCommit}>
+    <Form
+      className={styles.container}
+      form={form}
+      initialValues={{
+        type: "",
+        houseType: "",
+        leaseTerm: "",
+      }}
+      onFinish={handleCommit}
+    >
       <Row align="middle" justify="space-around">
         <Col span={3}>
           <Form.Item label="租期" name="leaseTerm">
             <Select
-              defaultValue="whatever"
               options={[
-                { value: "whatever", label: "不限" },
-                { value: "shortAndLong", label: "长&短租" },
-                { value: "short", label: "短租" },
-                { value: "long", label: "长租" },
+                { value: "", label: "不限" },
+                { value: "短租", label: "短租" },
+                { value: "长租", label: "长租" },
               ]}
             />
           </Form.Item>
@@ -38,9 +74,8 @@ export const HouseQueryForm: React.FC = () => {
         <Col>
           <Form.Item label="类型" name="type">
             <Select
-              defaultValue="whatever"
               options={[
-                { value: "whatever", label: "不限" },
+                { value: "", label: "不限" },
                 { value: "entire", label: "整租" },
                 { value: "shared", label: "合租" },
               ]}
@@ -54,13 +89,12 @@ export const HouseQueryForm: React.FC = () => {
               style={{
                 width: "130px",
               }}
-              defaultValue="whatever"
               options={[
-                { value: "whatever", label: "不限" },
-                { value: "1", label: "1居室" },
-                { value: "2", label: "2居室" },
-                { value: "3", label: "3居室" },
-                { value: "4", label: "4居室及以上" },
+                { value: "", label: "不限" },
+                { value: "一居室", label: "一居室" },
+                { value: "两居室", label: "两居室" },
+                { value: "三居室", label: "三居室" },
+                { value: "四居室及以上", label: "四居室及以上" },
               ]}
             />
           </Form.Item>
@@ -73,8 +107,12 @@ export const HouseQueryForm: React.FC = () => {
       </Row>
 
       {expand && (
-        <Row>
-          <Col></Col>
+        <Row justify="start">
+          <Col span={6}>
+            <Form.Item name="priceRange" label="价格" initialValue={priceRange}>
+              <PriceRangeSelector value={priceRange} onChange={setPriceRange} />
+            </Form.Item>
+          </Col>
         </Row>
       )}
       <Row justify="end" align="middle">
@@ -89,7 +127,7 @@ export const HouseQueryForm: React.FC = () => {
           </Button>
         </Col>
         <Col style={{ marginRight: "5px" }}>
-          <Button onClick={() => form.resetFields()}>重置</Button>
+          <Button onClick={reset}>重置</Button>
         </Col>
         <Col span={1} style={{ marginRight: "15px" }}>
           <Button

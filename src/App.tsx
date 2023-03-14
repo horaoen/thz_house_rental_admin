@@ -17,7 +17,7 @@ const App: React.FC = () => {
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = token;
     axios.interceptors.request.use(function(config) {
-      config.baseURL = testUrl;
+      config.baseURL = CommonConstant.baseUrl;
       return config;
     });
   }, [token]);
