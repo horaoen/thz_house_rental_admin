@@ -80,7 +80,7 @@ export const HouseEdit: React.FC = () => {
 
   const basicProps: UploadProps = {
     name: "uploadFile",
-    action: "http://123.60.59.138:5000/file/upload",
+    action: "http://123.60.78.147:5000/file/upload",
     headers: {
       Authorization: token,
     },
