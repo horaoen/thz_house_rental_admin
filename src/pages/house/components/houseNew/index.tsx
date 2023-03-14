@@ -62,6 +62,10 @@ export const HouseNew: React.FC = () => {
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         onFinish={(values) => handleSubmit(values)}
+        initialValues={{
+          leaseTerm: "",
+          type: "",
+        }}
       >
         <Row justify="center">
           <Col span={7}>
@@ -89,6 +93,7 @@ export const HouseNew: React.FC = () => {
           <Col span={7}>
             <Form.Item label="类型" name="type">
               <Select>
+                <Select.Option value="">不限</Select.Option>
                 <Select.Option value="整租">整租</Select.Option>
                 <Select.Option value="合租">合租</Select.Option>
               </Select>
@@ -106,10 +111,10 @@ export const HouseNew: React.FC = () => {
           </Col>
           <Col span={7}>
             <Form.Item label="租期" name="leaseTerm">
-              <Select defaultValue="不限">
-                <Select.Option value="不限">不限</Select.Option>
+              <Select>
+                <Select.Option value="">不限</Select.Option>
                 <Select.Option value="长租">长租</Select.Option>
-                <Select.Option value="短租">长租</Select.Option>
+                <Select.Option value="短租">短租</Select.Option>
               </Select>
             </Form.Item>
           </Col>
