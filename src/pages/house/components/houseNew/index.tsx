@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { getTokenAtom } from "../../../../recoil/atom";
+import { CommonConstant } from "../../../../constant/constants";
 
 export const HouseNew: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
@@ -31,7 +32,7 @@ export const HouseNew: React.FC = () => {
 
   const basicProps: UploadProps = {
     name: "uploadFile",
-    action: "http://123.60.78.147:5000/file/upload",
+    action: CommonConstant.baseUrl,
     headers: {
       Authorization: token,
     },

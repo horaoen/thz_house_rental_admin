@@ -16,6 +16,7 @@ import { useRecoilValue } from "recoil";
 import { getTokenAtom } from "../../../../recoil/atom";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
+import { CommonConstant } from "../../../../constant/constants";
 
 export const HouseEdit: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
@@ -80,7 +81,7 @@ export const HouseEdit: React.FC = () => {
 
   const basicProps: UploadProps = {
     name: "uploadFile",
-    action: "http://123.60.78.147:5000/file/upload",
+    action: CommonConstant.baseUrl,
     headers: {
       Authorization: token,
     },

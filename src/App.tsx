@@ -3,15 +3,14 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import { RecoilEnv, useRecoilValue } from "recoil";
+import { CommonConstant } from "./constant/constants";
 import { getTokenAtom } from "./recoil/atom";
 import { router } from "./router";
 
 const App: React.FC = () => {
   const token = useRecoilValue(getTokenAtom());
 
-  // const devUrl = "https://localhost:5000";
-  const testUrl = "http://123.60.78.147:5000/";
-  axios.defaults.baseURL = testUrl;
+  axios.defaults.baseURL = CommonConstant.baseUrl;
   axios.defaults.headers.post["Content-Type"] = "application/json";
   axios.defaults.withCredentials = true;
 

@@ -1,32 +1,39 @@
 import { Button, Popconfirm, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { getHouseListAtom } from "../../../../recoil/atom";
 import { House } from "../../../../request/type";
 
-interface TableProps { }
-
-export const HouseTable: React.FC<TableProps> = () => {
-  const [dataSource, setDatasource] = useState<House[]>();
+export const HouseTable: React.FC = () => {
+  const [houseDataSource, setHouseDataSource] = useRecoilState(
+    getHouseListAtom()
+  );
 
   useEffect(() => {
     async function loadingData() {
       const response = await axios.get("/house/list");
-      setDatasource(response.data.data.records);
+      setHouseDataSource(response.data.data.records);
     }
     loadingData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleDelete(houseId: string) {
+  function removeItemAtIndex(arr: any[], index: number) {
+    return [...arr.slice(0, index), ...arr.slice(index + 1)];
+  }
+
+  async function handleDelete(houseId: string, index: number) {
     console.log(houseId);
     await axios.delete("/house/delete", {
       params: {
         houseId: houseId,
       },
     });
-    const newDatasource = dataSource?.filter((item) => item.id !== houseId);
-    setDatasource(newDatasource);
+    const newList = removeItemAtIndex(houseDataSource, index);
+    setHouseDataSource(newList);
   }
 
   const columns: ColumnsType<House> = [
@@ -68,7 +75,7 @@ export const HouseTable: React.FC<TableProps> = () => {
     {
       title: "操作",
       key: "action",
-      render: (_, record) => (
+      render: (_, record, index) => (
         <Space size="middle">
           <Link to={`/house/${record.id}/detail`}>
             <Button type="link">详情</Button>
@@ -79,7 +86,7 @@ export const HouseTable: React.FC<TableProps> = () => {
           <Popconfirm
             placement="top"
             title="确定删除吗？"
-            onConfirm={() => handleDelete(record.id)}
+            onConfirm={() => handleDelete(record.id, index)}
             okText="是"
             cancelText="否"
           >
@@ -92,5 +99,5 @@ export const HouseTable: React.FC<TableProps> = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="id" dataSource={dataSource}/>;
+  return <Table columns={columns} rowKey="id" dataSource={houseDataSource} />;
 };

@@ -3,13 +3,24 @@ import { Button, Col, Form, Input, Row, Select } from "antd";
 import styles from "./index.module.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { getHouseListAtom } from "../../../../recoil/atom";
+import axios from "axios";
 
 export const HouseQueryForm: React.FC = () => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
+  const setHouseDataSource = useSetRecoilState(getHouseListAtom());
+
+  async function handleCommit(values: any) {
+    console.log(values);
+    const res = await axios.get("/house/list", values);
+    console.log(res.data);
+    setHouseDataSource(res.data.data.records);
+  }
 
   return (
-    <Form className={styles.container} form={form}>
+    <Form className={styles.container} form={form} onFinish={handleCommit}>
       <Row align="middle" justify="space-around">
         <Col span={3}>
           <Form.Item label="租期" name="leaseTerm">

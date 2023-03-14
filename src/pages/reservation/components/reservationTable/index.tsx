@@ -37,7 +37,7 @@ export const ReservationTable: React.FC = () => {
       render: (_, record) => (
         <Space size="middle">
           <Link to={`/house/${record.houseId}/detail`}>
-            <Button type="link">详情</Button>
+            <Button type="link">房屋详情</Button>
           </Link>
         </Space>
       ),
