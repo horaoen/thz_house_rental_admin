@@ -12,7 +12,6 @@ export const UserQueryForm: React.FC = () => {
     const res = await axios.get("/user/list", {
       params: values,
     });
-    console.log(res);
     setUserDataSource(res.data.data.records);
   }
 

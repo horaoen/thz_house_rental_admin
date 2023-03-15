@@ -3,6 +3,8 @@ import { ColumnsType } from "antd/es/table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { getUserListAtom } from "../../../../recoil/atom";
 
 export interface User {
   userId: string;
@@ -16,12 +18,12 @@ export interface User {
 }
 
 export const UserTable: React.FC = () => {
-  const [dataSource, setDatasource] = useState<User[]>();
+  const [userDataSource, setUseDataSource] = useRecoilState(getUserListAtom());
 
   useEffect(() => {
     async function loadingData() {
       const response = await axios.get("/user/list");
-      setDatasource(response.data.data.records);
+      setUseDataSource(response.data.data.records);
     }
     loadingData();
   }, []);
@@ -65,5 +67,7 @@ export const UserTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="userId" dataSource={dataSource} />;
+  return (
+    <Table columns={columns} rowKey="userId" dataSource={userDataSource} />
+  );
 };
