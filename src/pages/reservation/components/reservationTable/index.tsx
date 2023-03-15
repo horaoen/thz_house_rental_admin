@@ -3,14 +3,18 @@ import { ColumnsType } from "antd/es/table";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { getReservationListAtom } from "../../../../recoil/atom";
 
 export const ReservationTable: React.FC = () => {
-  const [dataSource, setDatasource] = useState<any>();
+  const [reservationDataSource, setReservationDataSource] = useRecoilState(
+    getReservationListAtom()
+  );
 
   useEffect(() => {
     async function loadingData() {
-      const response = await axios.get("/reservation/list");
-      setDatasource(response.data.data.records);
+      const response = await axios.get("/reservation/superList");
+      setReservationDataSource(response.data.data.records);
     }
     loadingData();
   }, []);
@@ -44,5 +48,5 @@ export const ReservationTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="id" dataSource={dataSource} />;
+  return <Table columns={columns} rowKey="id" dataSource={reservationDataSource} />;
 };

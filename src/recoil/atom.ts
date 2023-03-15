@@ -29,3 +29,10 @@ export const getUserListAtom = () => {
     default: [],
   });
 };
+
+export const getReservationListAtom = () => {
+  return atom<any[]>({
+    key: "reservationDataSource",
+    default: [],
+  })
+}
