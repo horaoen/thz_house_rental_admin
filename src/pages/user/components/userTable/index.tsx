@@ -1,7 +1,7 @@
 import { Space, Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { getUserListAtom } from "../../../../recoil/atom";
@@ -26,6 +26,7 @@ export const UserTable: React.FC = () => {
       setUseDataSource(response.data.data.records);
     }
     loadingData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const columns: ColumnsType<User> = [

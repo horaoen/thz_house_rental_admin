@@ -1,12 +1,12 @@
 import { Row, Col, Input, Button, Form } from "antd";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { getUserListAtom } from "../../../../recoil/atom";
 import styles from "./index.module.css";
 
 export const UserQueryForm: React.FC = () => {
   const [form] = Form.useForm();
-  const [userDataSource, setUserDataSource] = useRecoilState(getUserListAtom());
+  const setUserDataSource = useSetRecoilState(getUserListAtom());
 
   async function handleCommit(values: any) {
     const res = await axios.get("/user/list", {

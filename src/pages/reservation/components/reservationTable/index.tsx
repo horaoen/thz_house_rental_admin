@@ -1,7 +1,7 @@
 import { Space, Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { getReservationListAtom } from "../../../../recoil/atom";
@@ -48,5 +48,7 @@ export const ReservationTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="id" dataSource={reservationDataSource} />;
+  return (
+    <Table columns={columns} rowKey="id" dataSource={reservationDataSource} />
+  );
 };
