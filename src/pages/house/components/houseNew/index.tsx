@@ -32,7 +32,7 @@ export const HouseNew: React.FC = () => {
 
   const basicProps: UploadProps = {
     name: "uploadFile",
-    action: CommonConstant.baseUrl,
+    action: CommonConstant.baseUrl + "file/upload",
     headers: {
       Authorization: token,
     },
