@@ -5,7 +5,8 @@ pipeline {
   stages {
     stage("docker clean") {
       steps {
-        sh 'sudo docker rm -f thz_house_rental_admin'
+        sh 'sudo docker stop thz_house_rental_admin'
+        sh 'sudo docker rm thz_house_rental_admin'
         sh 'sudo docker rmi thz_house_rental_admin:v1' 
       }
     }
