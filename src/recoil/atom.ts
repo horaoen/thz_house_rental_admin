@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { User } from "../pages/user/components/userTable";
 import { House } from "../request/type";
 
 export const getTokenAtom = () => {
@@ -18,6 +19,13 @@ export const getCurrentUserAtom = () => {
 export const getHouseListAtom = () => {
   return atom<House[]>({
     key: "houseDataSource",
-    default: []
+    default: [],
+  });
+};
+
+export const getUserListAtom = () => {
+  return atom<User[]>({
+    key: "userDataSource",
+    default: [],
   });
 };

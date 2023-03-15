@@ -1,11 +1,28 @@
 import { Row, Col, Input, Button, Form } from "antd";
+import axios from "axios";
+import { useRecoilState } from "recoil";
+import { getUserListAtom } from "../../../../recoil/atom";
 import styles from "./index.module.css";
 
 export const UserQueryForm: React.FC = () => {
   const [form] = Form.useForm();
+  const [userDataSource, setUserDataSource] = useRecoilState(getUserListAtom());
+
+  async function handleCommit(values: any) {
+    const res = await axios.get("/user/list", {
+      params: values,
+    });
+    console.log(res);
+    setUserDataSource(res.data.data.records);
+  }
+
+  async function handleReset() {
+    form.resetFields();
+    handleCommit(null);
+  }
 
   return (
-    <Form className={styles.container} form={form}>
+    <Form className={styles.container} form={form} onFinish={handleCommit}>
       <Row align="top">
         <Col span={4} offset={2}>
           <Form.Item label="昵称" name="nickName">
@@ -18,10 +35,14 @@ export const UserQueryForm: React.FC = () => {
           </Form.Item>
         </Col>
         <Col span={6} offset={5}>
-          <Button type="primary" htmlType="submit" style={{marginRight: "20px"}}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{ marginRight: "20px" }}
+          >
             查询
           </Button>
-          <Button onClick={() => form.resetFields()}>重置</Button>
+          <Button onClick={handleReset}>重置</Button>
         </Col>
       </Row>
     </Form>
