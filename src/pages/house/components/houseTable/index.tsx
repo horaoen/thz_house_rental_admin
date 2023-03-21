@@ -1,38 +1,29 @@
 import { Button, Popconfirm, Space, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import axios from "axios";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { getHouseListAtom } from "../../../../recoil/atom";
 import { House } from "../../../../request/type";
+import { Page } from "../../../../type";
 
-export const HouseTable: React.FC = () => {
-  const [houseDataSource, setHouseDataSource] = useRecoilState(
-    getHouseListAtom()
-  );
-
-  useEffect(() => {
-    async function loadingData() {
-      const response = await axios.get("/house/list");
-      setHouseDataSource(response.data.data.records);
-    }
-    loadingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function removeItemAtIndex(arr: any[], index: number) {
-    return [...arr.slice(0, index), ...arr.slice(index + 1)];
-  }
-
-  async function handleDelete(houseId: string, index: number) {
+interface PropsType {
+  data: any[];
+  total: number;
+  onPageChange: Function;
+  page: Page;
+}
+export const HouseTable: React.FC<PropsType> = ({
+  data,
+  total,
+  onPageChange,
+  page,
+}) => {
+  async function handleDelete(houseId: string) {
     await axios.delete("/house/delete", {
       params: {
         houseId: houseId,
       },
     });
-    const newList = removeItemAtIndex(houseDataSource, index);
-    setHouseDataSource(newList);
+    // todo handle delete
   }
 
   const columns: ColumnsType<House> = [
@@ -74,7 +65,7 @@ export const HouseTable: React.FC = () => {
     {
       title: "操作",
       key: "action",
-      render: (_, record, index) => (
+      render: (_, record) => (
         <Space size="middle">
           <Link to={`/house/${record.id}/detail`}>
             <Button type="link">详情</Button>
@@ -85,7 +76,7 @@ export const HouseTable: React.FC = () => {
           <Popconfirm
             placement="top"
             title="确定删除吗？"
-            onConfirm={() => handleDelete(record.id, index)}
+            onConfirm={() => handleDelete(record.id)}
             okText="是"
             cancelText="否"
           >
@@ -98,5 +89,19 @@ export const HouseTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="id" dataSource={houseDataSource} />;
+  return (
+    <Table
+      columns={columns}
+      rowKey="id"
+      dataSource={data}
+      pagination={{
+        current: page.pageNo,
+        onChange: (page, pageSize) => {
+          onPageChange({ pageNo: page, pageSize: pageSize });
+          console.log(page, pageSize);
+        },
+        total: total,
+      }}
+    />
+  );
 };

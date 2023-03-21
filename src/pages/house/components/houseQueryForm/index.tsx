@@ -1,50 +1,51 @@
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  Row,
-  Select,
-  Slider,
-} from "antd";
+import { Button, Col, Form, Input, Row, Select } from "antd";
 import styles from "./index.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { getHouseListAtom } from "../../../../recoil/atom";
-import axios from "axios";
 import { PriceRangeSelector } from "../../../../components";
+import { Page } from "../../../../type";
 
-export const HouseQueryForm: React.FC = () => {
+interface PropTypes {
+  handleSearch: Function;
+  page: Page;
+  onPageChange: Function;
+}
+export const HouseQueryForm: React.FC<PropTypes> = ({
+  handleSearch,
+  page,
+  onPageChange,
+}) => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
-  const setHouseDataSource = useSetRecoilState(getHouseListAtom());
   const [priceRange, setPriceRange] = useState({
     minPrice: 100,
     maxPrice: 2000,
   });
 
   async function handleCommit(values: any) {
-    const res = await axios.get("/house/list", {
-      params: expand
-        ? {
-          ...values,
-          minPrice: priceRange.minPrice,
-          maxPrice: priceRange.maxPrice,
-        }
-        : {
-          ...values,
-        },
-    });
-    setHouseDataSource(res.data.data.records);
+    const params = expand
+      ? {
+        ...values,
+        minPrice: priceRange.minPrice,
+        maxPrice: priceRange.maxPrice,
+        ...page,
+      }
+      : {
+        ...values,
+        ...page,
+      };
+    handleSearch(params);
   }
+
+  useEffect(() => {
+    form.submit();
+  }, [page, form]);
 
   async function reset() {
     setPriceRange({ minPrice: 100, maxPrice: 2000 });
     form.resetFields();
-    handleCommit(null);
+    onPageChange({ pageNo: 1, pageSize: 10 });
   }
 
   return (
@@ -109,7 +110,10 @@ export const HouseQueryForm: React.FC = () => {
         <Row justify="start">
           <Col span={6}>
             <Form.Item label="价格">
-              <PriceRangeSelector values={priceRange} onChange={setPriceRange} />
+              <PriceRangeSelector
+                values={priceRange}
+                onChange={setPriceRange}
+              />
             </Form.Item>
           </Col>
         </Row>

@@ -17,7 +17,7 @@ export const getCurrentUserAtom = () => {
 };
 
 export const getHouseListAtom = () => {
-  return atom<House[]>({
+  return atom<any>({
     key: "houseDataSource",
     default: [],
   });
