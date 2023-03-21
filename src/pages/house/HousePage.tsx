@@ -2,7 +2,7 @@ import { HouseQueryForm } from "./components/houseQueryForm";
 import styles from "./HousePage.module.css";
 import { HouseTable } from "./components/houseTable";
 import { Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Page } from "../../type";
 import axios from "axios";
 
@@ -16,7 +16,7 @@ export const HousePage: React.FC = () => {
   const [total, setTotal] = useState(0);
 
   const handleSearch = async (values: any) => {
-    console.log({ ...values });
+    console.log("search: ", values);
     const res = await axios.get("/house/list", {
       params: {
         ...values,
@@ -26,11 +26,6 @@ export const HousePage: React.FC = () => {
     setTotal(res.data.data.total);
   };
 
-  useEffect(() => {
-    handleSearch(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <div className={styles.container}>
       <HouseQueryForm
@@ -38,9 +33,9 @@ export const HousePage: React.FC = () => {
         page={page}
         onPageChange={setPage}
       />
-      <HouseTable 
-        data={data} 
-        total={total} 
+      <HouseTable
+        data={data}
+        total={total}
         onPageChange={setPage}
         page={page}
       />

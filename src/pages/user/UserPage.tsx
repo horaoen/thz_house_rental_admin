@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Page } from "../../type";
 import { UserQueryForm } from "./components/userQueryForm";
@@ -16,7 +16,6 @@ export const UserPage: React.FC = () => {
   const [total, setTotal] = useState(0);
 
   const handleSearch = async (values: any) => {
-    console.log({ ...values });
     const res = await axios.get("/user/list", {
       params: {
         ...values,
@@ -26,10 +25,6 @@ export const UserPage: React.FC = () => {
     setTotal(res.data.data.total);
   };
 
-  useEffect(() => {
-    handleSearch(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className={style.container}>
       <UserQueryForm

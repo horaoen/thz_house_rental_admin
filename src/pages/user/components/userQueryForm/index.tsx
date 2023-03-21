@@ -22,7 +22,8 @@ export const UserQueryForm: React.FC<PropTypes> = ({
 
   useEffect(() => {
     form.submit();
-  }, [page, form]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Form

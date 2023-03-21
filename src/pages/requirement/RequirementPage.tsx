@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Page } from "../../type";
 import { RequireTable } from "./component/requireTable";
@@ -26,10 +26,6 @@ export const RequirementPage: React.FC = () => {
     setTotal(res.data.data.total);
   };
 
-  useEffect(() => {
-    handleSearch(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <div className={styles.container}>
       <RequireQueryForm
