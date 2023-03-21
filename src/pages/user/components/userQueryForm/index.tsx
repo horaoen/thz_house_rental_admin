@@ -1,27 +1,37 @@
 import { Row, Col, Input, Button, Form } from "antd";
-import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { getUserListAtom } from "../../../../recoil/atom";
+import { useEffect } from "react";
+import { Page } from "../../../../type";
 import styles from "./index.module.css";
 
-export const UserQueryForm: React.FC = () => {
+interface PropTypes {
+  handleSearch: Function;
+  page: Page;
+  onPageChange: Function;
+}
+export const UserQueryForm: React.FC<PropTypes> = ({
+  handleSearch,
+  page,
+  onPageChange,
+}) => {
   const [form] = Form.useForm();
-  const setUserDataSource = useSetRecoilState(getUserListAtom());
-
-  async function handleCommit(values: any) {
-    const res = await axios.get("/user/list", {
-      params: values,
-    });
-    setUserDataSource(res.data.data.records);
-  }
 
   async function handleReset() {
     form.resetFields();
-    handleCommit(null);
+    onPageChange({ pageNo: 1, pageSize: 10 });
   }
 
+  useEffect(() => {
+    form.submit();
+  }, [page, form]);
+
   return (
-    <Form className={styles.container} form={form} onFinish={handleCommit}>
+    <Form
+      className={styles.container}
+      form={form}
+      onFinish={(values: any) => {
+        handleSearch(values);
+      }}
+    >
       <Row align="top">
         <Col span={4} offset={2}>
           <Form.Item label="昵称" name="nickName">

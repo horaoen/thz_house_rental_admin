@@ -1,10 +1,7 @@
 import { Space, Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import axios from "axios";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { getUserListAtom } from "../../../../recoil/atom";
+import { Page } from "../../../../type";
 
 export interface User {
   userId: string;
@@ -17,18 +14,19 @@ export interface User {
   requireNum?: number;
 }
 
-export const UserTable: React.FC = () => {
-  const [userDataSource, setUseDataSource] = useRecoilState(getUserListAtom());
+interface PropsType {
+  data: any[];
+  total: number;
+  onPageChange: Function;
+  page: Page;
+}
 
-  useEffect(() => {
-    async function loadingData() {
-      const response = await axios.get("/user/list");
-      setUseDataSource(response.data.data.records);
-    }
-    loadingData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+export const UserTable: React.FC<PropsType> = ({
+  data,
+  total,
+  onPageChange,
+  page,
+}) => {
   const columns: ColumnsType<User> = [
     {
       key: "nickName",
@@ -69,6 +67,17 @@ export const UserTable: React.FC = () => {
   ];
 
   return (
-    <Table columns={columns} rowKey="userId" dataSource={userDataSource} />
+    <Table
+      columns={columns}
+      rowKey="userId"
+      dataSource={data}
+      pagination={{
+        current: page.pageNo,
+        onChange: (page, pageSize) => {
+          onPageChange({ pageNo: page, pageSize: pageSize });
+        },
+        total: total,
+      }}
+    />
   );
 };

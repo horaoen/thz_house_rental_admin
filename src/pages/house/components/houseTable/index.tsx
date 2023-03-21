@@ -99,7 +99,6 @@ export const HouseTable: React.FC<PropsType> = ({
         current: page.pageNo,
         onChange: (page, pageSize) => {
           onPageChange({ pageNo: page, pageSize: pageSize });
-          console.log(page, pageSize);
         },
         total: total,
       }}
