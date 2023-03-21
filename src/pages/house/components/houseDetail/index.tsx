@@ -46,7 +46,7 @@ export const HouseDetail: React.FC = () => {
 
       <ReactPlayer
         style={{ margin: "0 auto" }}
-        url={data?.mp4Urls[0]}
+        url={data?.mp4Urls && data?.mp4Urls.length > 0 ? data?.mp4Urls[0] : null}
         controls={true}
         muted={true}
       />
