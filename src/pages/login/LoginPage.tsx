@@ -5,13 +5,12 @@ import { Button, Checkbox, Form, Input, message, Typography } from "antd";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
-import { getCurrentUserAtom, getTokenAtom } from "../../recoil/atom";
+import { getTokenAtom } from "../../recoil/atom";
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const setToken = useSetRecoilState(getTokenAtom());
-  const setCurrentUser = useSetRecoilState(getCurrentUserAtom());
 
   async function login(values: any) {
     try {
@@ -27,9 +26,6 @@ export const LoginPage: React.FC = () => {
       if (values.remember) {
         localStorage.setItem("token", response.data.data);
       }
-
-      const currentUserResponse = await axios.get("/auth/currentUser");
-      setCurrentUser(currentUserResponse.data);
 
       navigate("/house");
     } catch (e) {
