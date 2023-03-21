@@ -24,6 +24,7 @@ export const HouseTable: React.FC<PropsType> = ({
       },
     });
     // todo handle delete
+    onPageChange({pageNo: 1, pageSize: 10})
   }
 
   const columns: ColumnsType<House> = [
