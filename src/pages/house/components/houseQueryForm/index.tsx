@@ -42,7 +42,7 @@ export const HouseQueryForm: React.FC<PropTypes> = ({
     form.submit();
   }, [page, form]);
 
-  async function reset() {
+  function reset() {
     setPriceRange({ minPrice: 100, maxPrice: 2000 });
     form.resetFields();
     onPageChange({ pageNo: 1, pageSize: 10 });

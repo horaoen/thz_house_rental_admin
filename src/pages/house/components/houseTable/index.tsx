@@ -23,7 +23,6 @@ export const HouseTable: React.FC<PropsType> = ({
         houseId: houseId,
       },
     });
-    // todo handle delete
     onPageChange({pageNo: 1, pageSize: 10})
   }
 

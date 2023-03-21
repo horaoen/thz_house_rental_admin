@@ -15,7 +15,7 @@ export const UserQueryForm: React.FC<PropTypes> = ({
 }) => {
   const [form] = Form.useForm();
 
-  async function handleReset() {
+  function handleReset() {
     form.resetFields();
     onPageChange({ pageNo: 1, pageSize: 10 });
   }

@@ -1,11 +1,37 @@
 import { Button, Col, Form, Input, Row } from "antd";
+import { useEffect } from "react";
+import { Page } from "../../../../type";
 import styles from "./index.module.css";
 
-export const RequireQueryForm: React.FC = () => {
+interface PropTypes {
+  handleSearch: Function;
+  page: Page;
+  onPageChange: Function;
+}
+export const RequireQueryForm: React.FC<PropTypes> = ({
+  handleSearch,
+  page,
+  onPageChange,
+}) => {
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    form.submit();
+  }, [page, form]);
+
+  function handleReset() {
+    form.resetFields();
+    onPageChange({pageNo: 1, pageSize: 10})
+  }
+  
   return (
-    <Form className={styles.container} form={form}>
+    <Form
+      className={styles.container}
+      form={form}
+      onFinish={(values: any) => {
+        handleSearch(values);
+      }}
+    >
       <Row align="top">
         <Col span={4} offset={2}>
           <Form.Item label="昵称" name="nickName">
@@ -25,7 +51,7 @@ export const RequireQueryForm: React.FC = () => {
           >
             查询
           </Button>
-          <Button onClick={() => form.resetFields()}>重置</Button>
+          <Button onClick={handleReset}>重置</Button>
         </Col>
       </Row>
     </Form>

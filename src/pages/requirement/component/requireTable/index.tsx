@@ -1,20 +1,20 @@
 import { Space, Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import axios from "axios";
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Page } from "../../../../type";
 
-export const RequireTable: React.FC = () => {
-  const [dataSource, setDatasource] = useState<any[]>();
-
-  useEffect(() => {
-    async function loadingData() {
-      const response = await axios.get("/requirement/list");
-      setDatasource(response.data.data.records);
-    }
-    loadingData();
-  }, []);
-
+interface PropsType {
+  data: any[];
+  total: number;
+  onPageChange: Function;
+  page: Page;
+}
+export const RequireTable: React.FC<PropsType> = ({
+  data,
+  total,
+  onPageChange,
+  page,
+}) => {
   const columns: ColumnsType<any> = [
     {
       key: "nickName",
@@ -54,5 +54,18 @@ export const RequireTable: React.FC = () => {
     },
   ];
 
-  return <Table columns={columns} rowKey="id" dataSource={dataSource} />;
+  return (
+    <Table
+      columns={columns}
+      rowKey="id"
+      dataSource={data}
+      pagination={{
+        current: page.pageNo,
+        onChange: (page, pageSize) => {
+          onPageChange({ pageNo: page, pageSize: pageSize });
+        },
+        total: total
+      }}
+    />
+  );
 };
