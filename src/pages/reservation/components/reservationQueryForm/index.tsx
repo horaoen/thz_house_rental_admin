@@ -2,9 +2,19 @@ import { Button, Col, Form, Input, Row } from "antd";
 import axios from "axios";
 import { useSetRecoilState } from "recoil";
 import { getReservationListAtom } from "../../../../recoil/atom";
+import { Page } from "../../../../type";
 import styles from "./index.module.css";
 
-export const ReservationQueryForm: React.FC = () => {
+interface PropTypes {
+  handleSearch: Function;
+  page: Page;
+  onPageChange: Function;
+}
+export const ReservationQueryForm: React.FC<PropTypes> = ({
+  handleSearch,
+  page,
+  onPageChange
+}) => {
   const setReservationDataSource = useSetRecoilState(getReservationListAtom());
   const [form] = Form.useForm();
 

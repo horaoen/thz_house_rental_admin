@@ -1,7 +1,6 @@
 import { HouseQueryForm } from "./components/houseQueryForm";
 import styles from "./HousePage.module.css";
 import { HouseTable } from "./components/houseTable";
-import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Page } from "../../type";
 import axios from "axios";
@@ -39,7 +38,6 @@ export const HousePage: React.FC = () => {
         onPageChange={setPage}
         page={page}
       />
-      <Outlet />
     </div>
   );
 };

@@ -5,8 +5,20 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { getReservationListAtom } from "../../../../recoil/atom";
+import { Page } from "../../../../type";
 
-export const ReservationTable: React.FC = () => {
+interface PropsType {
+  data: any[];
+  total: number;
+  onPageChange: Function;
+  page: Page;
+}
+export const ReservationTable: React.FC<PropsType> = ({
+  data,
+  total,
+  onPageChange,
+  page
+}) => {
   const [reservationDataSource, setReservationDataSource] = useRecoilState(
     getReservationListAtom()
   );

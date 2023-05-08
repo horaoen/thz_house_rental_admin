@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
 import { Page } from "../../type";
 import { UserQueryForm } from "./components/userQueryForm";
 import { UserTable } from "./components/userTable";
@@ -33,7 +32,6 @@ export const UserPage: React.FC = () => {
         onPageChange={setPage}
       />
       <UserTable data={data} total={total} onPageChange={setPage} page={page} />
-      <Outlet />
     </div>
   );
 };

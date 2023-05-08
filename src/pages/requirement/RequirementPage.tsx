@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
 import { Page } from "../../type";
 import { RequireTable } from "./component/requireTable";
 import { RequireQueryForm } from "./component/requireQueryForm";
@@ -39,7 +38,6 @@ export const RequirementPage: React.FC = () => {
         onPageChange={setPage}
         page={page}
       />
-      <Outlet />
     </div>
   );
 };
