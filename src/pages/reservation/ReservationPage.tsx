@@ -28,8 +28,15 @@ export const ReservationPage: React.FC = () => {
   };
   return (
     <div className={styles.container}>
-      <ReservationQueryForm handleSearch={handleSearch} page={page} onPageChange={setPage} />
-      <ReservationTable data={data} total={total} onPageChange={setPage} page={page}/>
+      <ReservationQueryForm
+        handleSearch={handleSearch}
+        page={page}
+        onPageChange={setPage} />
+      <ReservationTable
+        data={data}
+        total={total}
+        onPageChange={setPage}
+        page={page} />
     </div>
   );
 };

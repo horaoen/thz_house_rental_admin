@@ -1,10 +1,6 @@
 import { Space, Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
-import axios from "axios";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { getReservationListAtom } from "../../../../recoil/atom";
 import { Page } from "../../../../type";
 
 interface PropsType {
@@ -19,23 +15,14 @@ export const ReservationTable: React.FC<PropsType> = ({
   onPageChange,
   page
 }) => {
-  const [reservationDataSource, setReservationDataSource] = useRecoilState(
-    getReservationListAtom()
-  );
 
-  useEffect(() => {
-    async function loadingData() {
-      const response = await axios.get("/reservation/superList");
-      setReservationDataSource(response.data.data.records);
-    }
-    loadingData();
-  }, []);
+
 
   const columns: ColumnsType<any> = [
     {
-      key: "userName",
+      key: "nickName",
       title: "昵称",
-      dataIndex: "userName",
+      dataIndex: "nickName",
     },
     {
       key: "phone",
@@ -61,6 +48,16 @@ export const ReservationTable: React.FC<PropsType> = ({
   ];
 
   return (
-    <Table columns={columns} rowKey="id" dataSource={reservationDataSource} />
+    <Table columns={columns}
+      rowKey="id"
+      dataSource={data}
+      pagination={{
+        current: page.pageNo,
+        onChange: (page, pageSize) => {
+          onPageChange({ pageNo: page, pageSize: pageSize });
+        },
+        total: total
+      }}
+    />
   );
 };

@@ -1,9 +1,7 @@
 import { Button, Col, Form, Input, Row } from "antd";
-import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { getReservationListAtom } from "../../../../recoil/atom";
 import { Page } from "../../../../type";
 import styles from "./index.module.css";
+import { useEffect } from "react";
 
 interface PropTypes {
   handleSearch: Function;
@@ -15,23 +13,25 @@ export const ReservationQueryForm: React.FC<PropTypes> = ({
   page,
   onPageChange
 }) => {
-  const setReservationDataSource = useSetRecoilState(getReservationListAtom());
   const [form] = Form.useForm();
 
-  async function handleCommit(values: any) {
-    const res = await axios.get("/reservation/superList", {
-      params: values
-    });
-    setReservationDataSource(res.data.data.records);
-  }
-
-  async function handleReset() {
+  useEffect(() => {
+    form.submit();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
+  
+  function handleReset() {
     form.resetFields();
-    handleCommit(null)
+    onPageChange({pageNo: 1, pageSize: 10})
   }
 
   return (
-    <Form className={styles.container} form={form} onFinish={handleCommit}>
+    <Form className={styles.container}
+      form={form} 
+      onFinish={(values: any) => {
+        handleSearch(values);
+      }
+    }>
       <Row align="top">
         <Col span={4} offset={2}>
           <Form.Item label="昵称" name="nickName">
